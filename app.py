@@ -150,26 +150,26 @@ def process_submission():
             for i, _ in enumerate(st.session_state.guests):
                 rsvp_data = {
                     "timestamp": timestamp,
-                    "contact_name": form_data.get('contact_name', ''),
-                    "contact_email": form_data.get('contact_email', ''),
-                    "contact_phone": form_data.get('contact_phone', ''),
+                    "contact_name": form_data.get('contact_name', '').strip(),
+                    "contact_email": form_data.get('contact_email', '').strip(),
+                    "contact_phone": form_data.get('contact_phone', '').strip(),
                     "attending": "Yes",
-                    "guest_first_name": form_data.get(f"guest_first_name_{i}", ""),
-                    "guest_last_name": form_data.get(f"guest_last_name_{i}", ""),
-                    "starter_choice": form_data.get(f"starter_{i}", ""),
-                    "main_choice": form_data.get(f"main_{i}", ""),
-                    "dessert_choice": form_data.get(f"dessert_{i}", ""),
-                    "dietary_requirements": form_data.get(f"dietary_{i}", ""),
-                    "comments": form_data.get('comments', '')
+                    "guest_first_name": form_data.get(f"guest_first_name_{i}", "").strip(),
+                    "guest_last_name": form_data.get(f"guest_last_name_{i}", "").strip(),
+                    "starter_choice": form_data.get(f"starter_{i}", "").strip(),
+                    "main_choice": form_data.get(f"main_{i}", "").strip(),
+                    "dessert_choice": form_data.get(f"dessert_{i}", "").strip(),
+                    "dietary_requirements": form_data.get(f"dietary_{i}", "").strip(),
+                    "comments": form_data.get('comments', '').strip()
                 }
                 save_rsvp(rsvp_data)
         else:
             # Save single "not attending" entry
             rsvp_data = {
                 "timestamp": timestamp,
-                "contact_name": form_data.get('contact_name', ''),
-                "contact_email": form_data.get('contact_email', ''),
-                "contact_phone": form_data.get('contact_phone', ''),
+                "contact_name": form_data.get('contact_name', '').strip(),
+                "contact_email": form_data.get('contact_email', '').strip(),
+                "contact_phone": form_data.get('contact_phone', '').strip(),
                 "attending": "No",
                 "guest_first_name": "",
                 "guest_last_name": "",
@@ -177,7 +177,7 @@ def process_submission():
                 "main_choice": "",
                 "dessert_choice": "",
                 "dietary_requirements": "",
-                "comments": form_data.get('comments', '')
+                "comments": form_data.get('comments', '').strip()
             }
             save_rsvp(rsvp_data)
         

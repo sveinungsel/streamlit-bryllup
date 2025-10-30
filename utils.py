@@ -11,7 +11,7 @@ def load_rsvps():
     """Load existing RSVP data from CSV file"""
     if os.path.exists(CSV_FILE):
         try:
-            return pd.read_csv(CSV_FILE)
+            return pd.read_csv(CSV_FILE, dtype={'contact_phone': str})
         except:
             return pd.DataFrame()
     return pd.DataFrame()
@@ -21,10 +21,16 @@ def save_rsvp(rsvp_data):
     df = load_rsvps()
     new_df = pd.DataFrame([rsvp_data])
     df = pd.concat([df, new_df], ignore_index=True)
+    # Ensure phone numbers are saved as strings
+    if 'contact_phone' in df.columns:
+        df['contact_phone'] = df['contact_phone'].astype(str)
     df.to_csv(CSV_FILE, index=False)
 
 def save_rsvps(df):
     """Save entire RSVP dataframe to CSV file"""
+    # Ensure phone numbers are saved as strings
+    if 'contact_phone' in df.columns:
+        df['contact_phone'] = df['contact_phone'].astype(str)
     df.to_csv(CSV_FILE, index=False)
 
 # Deadline utility functions
