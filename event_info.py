@@ -10,35 +10,35 @@ def event_info_page():
 
         # Create tabs
         tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-            ":material/event: Event Details",
-            ":material/restaurant_menu: Menu",
-            ":material/schedule: Timeline",
-            ":material/hotel: Accommodations",
-            ":material/directions_car: Transportation",
-            ":material/card_giftcard: Registry & Info",
-            ":material/contact_mail: Contact"
+            ":material/event: Tid og stad",
+            ":material/restaurant_menu: Meny",
+            ":material/schedule: Tidslinje",
+            ":material/hotel: Overnatting",
+            ":material/directions_car: Transport",
+            ":material/other_admission: Anna informasjon",
+            ":material/contact_mail: Kontakt"
         ])
 
         # Tab 1: Event Details (Date, Time, Ceremony, Reception)
         with tab1:
             with st.container(border=True):
             # Wedding Date and Time
-                st.header(":material/calendar_today: Date & Time")
+                st.header(":material/calendar_today: Tid og dato")
                 col1, col2 = st.columns(2)
 
                 with col1:
-                    st.write("**Wedding Date**")
+                    st.write("**Dato**")
                     st.write(st.secrets['event']['wedding_date'])
 
                 with col2:
-                    st.write("**Ceremony Time**")
+                    st.write("**Vielsetid**")
                     st.write(st.secrets['event']['ceremony_time'])
 
                 st.markdown("---")
 
                 # Ceremony Venue (Church)
                 if st.secrets['event'].get('ceremony_venue_name'):
-                    st.header(":material/church: Wedding Ceremony")
+                    st.header(":material/house: Vielse")
 
                     ceremony_col1, ceremony_col2 = st.columns([2, 1])
 
@@ -52,7 +52,7 @@ def event_info_page():
 
                         # Add map if URL provided
                         if st.secrets['event'].get('ceremony_venue_map_url'):
-                            st.page_link(st.secrets['event']['ceremony_venue_map_url'], label='Open in Maps', icon=":material/map:")
+                            st.page_link(st.secrets['event']['ceremony_venue_map_url'], label='Opne i Google Maps', icon=":material/map:")
 
                     with ceremony_col2:
                         # Ceremony venue image if provided
@@ -62,7 +62,7 @@ def event_info_page():
                     st.markdown("---")
 
                 # Reception Venue
-                st.header(":material/celebration: Reception Venue")
+                st.header(":material/celebration: Festlokale")
 
                 venue_col1, venue_col2 = st.columns([2, 1])
 
@@ -75,7 +75,7 @@ def event_info_page():
 
                     # Add map if URL provided
                     if st.secrets['event'].get('venue_map_url'):
-                        st.page_link(st.secrets['event']['venue_map_url'], label='Open in Maps', icon=":material/map:")
+                        st.page_link(st.secrets['event']['venue_map_url'], label='Opne i Google Maps', icon=":material/map:")
 
                 with venue_col2:
                     # Venue image if provided
@@ -89,9 +89,7 @@ def event_info_page():
                     menu_info = st.secrets['menu']
 
                     # Check if there are any detailed menu items to display
-                    starters_detailed = menu_info.get('starters_detailed', [])
-                    mains_detailed = menu_info.get('mains_detailed', [])
-                    desserts_detailed = menu_info.get('desserts_detailed', [])
+                    dishes_detailed = menu_info.get('dishes_detailed', [])
 
                     # Helper function to check if items exist and are valid
                     def has_valid_items(items):
@@ -105,47 +103,19 @@ def event_info_page():
                                 return True
                         return False
 
-                    has_starters = has_valid_items(starters_detailed)
-                    has_mains = has_valid_items(mains_detailed)
-                    has_desserts = has_valid_items(desserts_detailed)
+                    valid_items = has_valid_items(dishes_detailed)
 
-                    if has_starters or has_mains or has_desserts:
+                    if valid_items:
                         # Optional menu description
                         if menu_info.get('menu_description'):
                             st.write(menu_info['menu_description'])
 
-                        menu_col1, menu_col2, menu_col3 = st.columns(3)
+                        menu_col1 = st.columns(1)
 
-                        if has_starters:
+                        if valid_items:
                             with menu_col1:
-                                st.subheader(":material/restaurant: Starters")
-                                for item in starters_detailed:
-                                    if isinstance(item, dict):
-                                        if item.get('name', '').strip():
-                                            st.markdown(f"**{item['name']}**")
-                                            if item.get('description'):
-                                                st.caption(item['description'])
-                                            st.write("")
-                                    elif isinstance(item, str) and item.strip():
-                                        st.write(f"• {item}")
-
-                        if has_mains:
-                            with menu_col2:
-                                st.subheader(":material/hand_meal: Main Courses")
-                                for item in mains_detailed:
-                                    if isinstance(item, dict):
-                                        if item.get('name', '').strip():
-                                            st.markdown(f"**{item['name']}**")
-                                            if item.get('description'):
-                                                st.caption(item['description'])
-                                            st.write("")
-                                    elif isinstance(item, str) and item.strip():
-                                        st.write(f"• {item}")
-
-                        if has_desserts:
-                            with menu_col3:
-                                st.subheader(":material/cake: Desserts")
-                                for item in desserts_detailed:
+                                st.subheader(":material/restaurant: Rettar")
+                                for item in dishes_detailed:
                                     if isinstance(item, dict):
                                         if item.get('name', '').strip():
                                             st.markdown(f"**{item['name']}**")
